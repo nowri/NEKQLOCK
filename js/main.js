@@ -1,8 +1,6 @@
 //timer
 var timer = (function(window, $) {
 
-
-
 	// requestAnimationFrame
 	var lastTime = 0;
 	var vendors = [ 'ms', 'moz', 'webkit', 'o' ];
@@ -36,7 +34,9 @@ var timer = (function(window, $) {
 		$ss		= $("#js-ss"),
 		hh,
 		mm,
-		ss;
+		ss,
+		isNewYear,
+		isRenderNewYear;
 
 	function render() {
 
@@ -53,6 +53,8 @@ var timer = (function(window, $) {
 		hh	= _hh;
 		mm	= _mm;
 		ss	= _ss;
+
+		renderNewYear(m.year(), m.month(), m.date());
 	}
 
 	function renderText($dom, num, oldNum, isDispatch){
@@ -64,6 +66,36 @@ var timer = (function(window, $) {
 				$(that).trigger("update", [num])
 			}
 		}
+	}
+
+	function renderNewYear(y, m, d) {
+
+		if(isRenderNewYear)return;
+
+		var Y = 2014,
+			M = 0,
+			DAYS = [1, 3]
+		if(y == Y && m == M){
+			if(d >= DAYS[0] && d <= DAYS[1]){
+				isRenderNewYear = true;
+				isNewYear = true;
+			}
+		}
+
+		if(isNewYear){
+			renderNewYearDom();
+		}
+
+	}
+
+	function renderNewYearDom(){
+
+		$('<div id="js-new-year">A Happy New Year</div>').appendTo(".timer");
+		$("#js-new-year")
+			.css({
+				fontSize:'50px',
+				lineHeight:'70px'
+			});
 	}
 
 	function zeroFormat(num, n){// ZeroFormat(1,3) => "001"
