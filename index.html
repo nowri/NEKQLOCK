@@ -28,15 +28,31 @@
 
 <!-- Add your site or application content here -->
 <article class="container">
-	<ul id="js-photo-list"></ul>
-	<div id="js-clock" class="clock">
-		<div class="timer">
-			<span class="hhmmss">
-				<span id="js-hh" class="hh"></span><span id="js-mm" class="mm"></span><span id="js-ss" class="ss"></span>
-			</span>
+	<div id="js-mask-photo" class="mask">
+		<ul id="js-photo-list" class="photo-list js-full-resize"></ul>
+	</div>
+	<div id="js-mask-clock" class="mask">
+		<div id="js-clock" class="clock js-full-resize">
+			<div class="timer">
+				<span class="hhmmss">
+					<span id="js-hh" class="hh"></span><span id="js-mm" class="mm"></span><span id="js-ss" class="ss"></span>
+				</span>
+			</div>
+			<div class="music">
+				<a href="http://creativecommons.org/wired/" target="_blank">music</a>
+			</div>
 		</div>
-		<div class="music">
-			<a href="http://creativecommons.org/wired/" target="_blank">music</a>
+	</div>
+	<div id="js-mask-clock-invert" class="mask">
+		<div id="js-clock-invert" class="clock invert js-full-resize">
+			<div class="timer invert">
+				<span class="hhmmss invert">
+					<span id="js-hh-invert" class="hh"></span><span id="js-mm-invert" class="mm"></span><span id="js-ss-invert" class="ss"></span>
+				</span>
+			</div>
+			<div class="music invert">
+				<a href="http://creativecommons.org/wired/" target="_blank">music</a>
+			</div>
 		</div>
 	</div>
 </article>

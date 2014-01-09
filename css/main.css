@@ -87,12 +87,26 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+html,
+body {
+  min-width: 320px;
+  min-height: 240px;
+}
+
 ul,
 li,
 a {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.z10 {
+  z-index: 10;
+}
+
+.z5 {
+  z-index: 5;
 }
 
 .container {
@@ -106,6 +120,12 @@ a {
   -khtml-user-select: none;
   -webkit-user-drag: none;
   -khtml-user-drag: none;
+}
+
+.photo-list {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
 .photo {
@@ -123,6 +143,17 @@ a {
   background-color: #fcfaec;
 }
 
+.clock.invert {
+  background-color: #7d6b48;
+}
+
+.mask {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 .music {
   line-height: 0;
   position: absolute;
@@ -135,26 +166,33 @@ a {
   color: #7d6b48;
 }
 
+.music.invert a {
+  color: #fcfaec;
+}
+
 .timer {
-  line-height: 1em;
+  line-height: 125px;
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 400px;
+  width: 510px;
   height: 150px;
-  margin-left: -200px;
+  margin-left: -255px;
   margin-top: -75px;
   color: #7d6b48;
-  font-size: 99px;
-  font-size: 6.1875rem;
+  font-size: 125px;
   font-family: 'Lato', sans-serif;
   text-align: center;
+}
+
+.timer.invert {
+  color: #fcfaec;
 }
 
 .hh,
 .mm,
 .ss {
-  margin-right: 0.18em;
+  margin-right: 0.19em;
 }
 
 /* ==========================================================================
