@@ -27,11 +27,14 @@ var timer = (function(window, $) {
 
 
 	// initialize
-	var that	= {},
-		m		= moment(),
-		$hh		= $("#js-hh"),
-		$mm		= $("#js-mm"),
-		$ss		= $("#js-ss"),
+	var that		= {},
+		m			= moment(),
+		$hh			= $("#js-hh"),
+		$mm			= $("#js-mm"),
+		$ss			= $("#js-ss"),
+		$hhInvert	= $("#js-hh-invert"),
+		$mmInvert	= $("#js-mm-invert"),
+		$ssInvert	= $("#js-ss-invert"),
 		hh,
 		mm,
 		ss,
@@ -49,6 +52,9 @@ var timer = (function(window, $) {
 		renderText($hh, _hh, hh);
 		renderText($mm, _mm, mm);
 		renderText($ss, _ss, ss, true);
+		renderText($hhInvert, _hh, hh);
+		renderText($mmInvert, _mm, mm);
+		renderText($ssInvert, _ss, ss, true);
 
 		hh	= _hh;
 		mm	= _mm;
@@ -208,86 +214,210 @@ gifManager = (function(window, $) {
 })(this, jQuery);
 
 //sound player
-(function(){
+var soundPlayer = (function(){
 
-	function BufferLoader(context, urlList, callback) {
-		this.context = context;
-		this.urlList = urlList;
-		this.onload = callback;
-		this.bufferList = new Array();
-		this.loadCount = 0;
-	};
-	BufferLoader.prototype.loadBuffer = function(url, index){
-		// Load buffer asynchronously
-		var request = new XMLHttpRequest();
-		request.open("GET", url, true);
-		request.responseType = "arraybuffer";
-		var loader = this;
-		request.onload = function() {
-			// Asynchronously decode the audio file data in request.response
-			loader.context.decodeAudioData(
-				request.response,
-				function(buffer) {
-					if (!buffer) {
-						alert('error decoding file data: ' + url);
-						return;
-					}
-					loader.bufferList[index] = buffer;
-					if (++loader.loadCount == loader.urlList.length) {
-						loader.onload(loader.bufferList);
-					}
-				}
-			);
-		}
-		request.onerror = function() {
-			alert('BufferLoader: XHR error');
-		};
-		request.send();
-	};
-	BufferLoader.prototype.load = function(){
-		for (var i = 0; i < this.urlList.length; ++i) {
-			this.loadBuffer(this.urlList[i], i);
-		}
-	};
+	var isMusicReady	= false,
+		url				= 'music.mp3',
+		item			= {src:url, id:"music"},
+		queue			= new createjs.LoadQueue(),
+		bgm;
 
-	var context = new webkitAudioContext(),
-		url = 'music.mp3',
-		bufferLoader = new BufferLoader(context, [url], function(bufferList){
-			for (var i = 0; i < bufferList.length; i++) {
-				var source = context.createBufferSource();
-				source.buffer = bufferList[i];
-				source.loop = true;
-				source.connect(context.destination);
-				source.noteOn(0);
-			}
-		});
-	bufferLoader.load();
+	createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.HTMLAudioPlugin, createjs.FlashPlugin]);
+	queue.installPlugin(createjs.Sound);
+	queue.addEventListener("complete", loadComplete);
+	queue.loadFile(item, true);
 
+	function loadComplete(evt) {
+		bgm = createjs.Sound.createInstance("music");
+		isMusicReady = true;
+		console.log(bgm.playState);
+		playSound();
+		console.log(bgm.playState,bgm);
+
+	}
+
+	function playSound() {
+
+		if(!isMusicReady)return;
+		createjs.Sound.play("music");
+	}
+
+	return {
+		playSound : playSound
+	}
 })();
 
 // display manager
 (function() {
+	var $maskA	= $("#js-mask-clock"),
+		$maskB	= $("#js-mask-clock-invert"),
+		$maskP	= $("#js-mask-photo");
 
-	var $clock = $("#js-clock");
 	$(timer)
 		.on("update", function(e, sec){
-			var num = sec%10;
-			if(num == 1){
-				showClock();
-			} else
-			if(num == 5){
-				gifManager.change();
-			} else
-			if(num == 6){
-				hideClock();
+			var isEven	= false,
+				num		= sec%10;
+			if(Math.floor(sec/10) % 2 == 0){
+				isEven = true;
 			}
+			changeView(num, isEven);
 		});
 
-	function showClock(){
-		$clock.fadeIn(400);
+	function changeView(num, isEven) {
+
+		if(!isEven) {
+			switch (num) {
+				case 1:
+					changeZ($maskB, 5);
+					reset($maskA, "width", "0%");
+					reset($maskA, "height", "100%");
+					changeZ($maskA);
+					anim($maskA, "width", "100%");
+					break;
+
+				case 2:
+					reset($maskB, "width", "100%");
+					reset($maskB, "height", "0%");
+					changeZ($maskB);
+					anim($maskB, "height", "100%");
+					break;
+
+				case 3:
+					reset($maskA, "width", "100%");
+					reset($maskA, "height", "100%");
+					anim($maskB, "width", "0%");
+					break;
+
+				case 4:
+					changeZ($maskA);
+					reset($maskB, "width", "100%");
+					reset($maskB, "height", "100%");
+					anim($maskA, "height", "0%");
+					break;
+
+				case 5:
+					changeZ($maskA);
+					reset($maskA, "width", "0%");
+					reset($maskA, "height", "100%");
+					anim($maskA, "width", "100%");
+					gifManager.change();
+					break;
+
+				case 6:
+					changeZ($maskA, 5);
+					reset($maskP, "width", "100%");
+					reset($maskP, "height", "0%");
+					changeZ($maskP);
+					anim($maskP, "height", "100%");
+					break;
+
+				case 7:
+				case 8:
+				case 9:
+				case 0:
+					break;
+			}
+		} else {
+			switch (num) {
+				case 1:
+					changeZ($maskB, 5);
+					changeZ($maskP);
+					reset($maskB, "width", "100%");
+					reset($maskB, "height", "100%");
+					reset($maskP, "width", "100%");
+					reset($maskP, "height", "100%");
+					anim($maskP, "width", "0%");
+					break;
+
+				case 2:
+					changeZ($maskB);
+					changeZ($maskA, 5);
+					reset($maskA, "width", "100%");
+					reset($maskA, "height", "100%");
+					anim($maskB, "height", "0%");
+					break;
+
+				case 3:
+					changeZ($maskB);
+					reset($maskB, "width", "0%");
+					reset($maskB, "height", "100%");
+					anim($maskB, "width", "100%");
+					break;
+
+				case 4:
+					changeZ($maskA);
+					changeZ($maskB, 5);
+					reset($maskA, "width", "100%");
+					reset($maskA, "height", "0%");
+					anim($maskA, "height", "100%");
+					break;
+
+				case 5:
+					reset($maskB, "width", "100%");
+					reset($maskB, "height", "100%");
+					anim($maskA, "width", "0%");
+					gifManager.change();
+					break;
+
+				case 6:
+					changeZ($maskB);
+					changeZ($maskP, 5);
+					reset($maskP, "width", "100%");
+					reset($maskP, "height", "100%");
+					anim($maskB, "height", "0%");
+					break;
+
+				case 7:
+				case 8:
+				case 9:
+				case 0:
+					break;
+			}
+		}
 	}
 
-	function hideClock(){
-		if(gifManager.isReady)$clock.fadeOut(400);
+	var $window = $(window);
+	function anim($mask, key, value) {
+		var obj = {},
+			time = 333;
+		obj[key] = value;
+
+		if(key === "height"){
+			time = time/$window.width()*$window.height();
+		}
+		$mask
+			.stop()
+			.animate(obj, time, "easeOutSine");
 	}
+
+	function changeZ($current, index) {
+		index = index || 10;
+		$(".z"+index).removeClass("z"+index);
+		$current.addClass("z"+index);
+	}
+
+	function reset($mask, key, value){
+		var obj = {};
+		obj[key] = value;
+		$mask.stop();
+		$mask.css(obj);
+	}
+
+})();
+
+// fit window on resize
+(function(){
+	var $window = $(window);
+	$window.resize(_.throttle(function() {
+		var w = $window.width(),
+			h = $window.height();
+		$(".js-full-resize")
+			.css({
+				width	: w+"px",
+				height	: h+"px"
+			});
+	}, 100));
+	$(function(){
+		$window.trigger("resize");
+	});
 })();
