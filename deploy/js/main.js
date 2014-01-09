@@ -49,6 +49,8 @@ var timer = (function(window, $) {
 			_mm	= m.minutes(),
 			_ss	= m.seconds();
 
+        triggerBGM(_ss, ss);
+
 		renderText($hh, _hh, hh);
 		renderText($mm, _mm, mm);
 		renderText($ss, _ss, ss, true);
@@ -56,12 +58,20 @@ var timer = (function(window, $) {
 		renderText($mmInvert, _mm, mm);
 		renderText($ssInvert, _ss, ss, true);
 
+
+
 		hh	= _hh;
 		mm	= _mm;
 		ss	= _ss;
-
-		renderNewYear(m.year(), m.month(), m.date());
 	}
+
+    function triggerBGM(_ss, ss) {
+
+        if(soundPlayer && ss !== _ss) {
+            soundPlayer.playSound();
+        }
+
+    }
 
 	function renderText($dom, num, oldNum, isDispatch){
 
@@ -74,35 +84,7 @@ var timer = (function(window, $) {
 		}
 	}
 
-	function renderNewYear(y, m, d) {
 
-		if(isRenderNewYear)return;
-
-		var Y = 2014,
-			M = 0,
-			DAYS = [1, 3]
-		if(y == Y && m == M){
-			if(d >= DAYS[0] && d <= DAYS[1]){
-				isRenderNewYear = true;
-				isNewYear = true;
-			}
-		}
-
-		if(isNewYear){
-			renderNewYearDom();
-		}
-
-	}
-
-	function renderNewYearDom(){
-
-		$('<div id="js-new-year">A Happy New Year</div>').appendTo(".timer");
-		$("#js-new-year")
-			.css({
-				fontSize:'50px',
-				lineHeight:'70px'
-			});
-	}
 
 	function zeroFormat(num, n){// ZeroFormat(1,3) => "001"
 		var ret=""+num;
@@ -127,7 +109,7 @@ gifManager = (function(window, $) {
 
 	var API				= "http://api.giphy.com/v1/gifs/search?q=cat&api_key=dc6zaTOxFJmzC&limit=100",
 		CACHE_LIMIT_H	= 1,
-		MAX_SLIDES		= 25,
+		MAX_SLIDES		= 75,
 		nowMS			= moment().milliseconds(),
 		limitMS			= localStorage.getItem("limitMS"),
 		current			= -1,
@@ -217,6 +199,7 @@ gifManager = (function(window, $) {
 var soundPlayer = (function(){
 
 	var isMusicReady	= false,
+        isMusicPlaying  = false,
 		url				= 'music.mp3',
 		item			= {src:url, id:"music"},
 		queue			= new createjs.LoadQueue(),
@@ -229,17 +212,17 @@ var soundPlayer = (function(){
 
 	function loadComplete(evt) {
 		bgm = createjs.Sound.createInstance("music");
-		isMusicReady = true;
-		console.log(bgm.playState);
-		playSound();
-		console.log(bgm.playState,bgm);
-
+        bgm.addEventListener("complete", function(){
+            isMusicPlaying = false;
+        });
+        isMusicReady = true;
 	}
 
 	function playSound() {
 
-		if(!isMusicReady)return;
-		createjs.Sound.play("music");
+		if(!isMusicReady || isMusicPlaying)return;
+        bgm.play();
+        isMusicPlaying = true;
 	}
 
 	return {
