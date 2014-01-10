@@ -365,9 +365,6 @@ var soundPlayer = (function(){
 			time = 333;
 		obj[key] = value;
 
-		if(key === "height"){
-			time = time/$window.width()*$window.height();
-		}
 		$mask
 			.stop()
 			.animate(obj, time, "linear");
