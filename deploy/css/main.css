@@ -154,19 +154,35 @@ a {
   overflow: hidden;
 }
 
-.music {
+.sound {
   line-height: 0;
   position: absolute;
   top: 9px;
+  right: 5px;
+}
+.sound a {
+  font-size: 16px;
+  text-decoration: none;
+  color: #7d6b48;
+}
+
+.sound.invert a {
+  color: #fcfaec;
+}
+
+.licence {
+  line-height: 0;
+  position: absolute;
+  bottom: 14px;
   right: 9px;
 }
-.music a {
+.licence a {
   font-size: 9px;
   text-decoration: none;
   color: #7d6b48;
 }
 
-.music.invert a {
+.licence.invert a {
   color: #fcfaec;
 }
 

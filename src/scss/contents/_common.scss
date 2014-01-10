@@ -67,10 +67,26 @@ a {
 	overflow: hidden;
 }
 
-.music {
+.sound {
 	line-height: 0;
 	position: absolute;
 	top: 9px;
+	right: 5px;
+	a {
+		font-size: 16px;
+		text-decoration: none;
+		color: $COLOR_F;
+	}
+}
+
+.sound.invert a {
+	color: $COLOR_B;
+}
+
+.licence {
+	line-height: 0;
+	position: absolute;
+	bottom: 14px;
 	right: 9px;
 	a {
 		font-size: 9px;
@@ -79,7 +95,7 @@ a {
 	}
 }
 
-.music.invert a {
+.licence.invert a {
 	color: $COLOR_B;
 }
 

@@ -199,10 +199,11 @@ gifManager = (function(window, $) {
 var soundPlayer = (function(){
 
 	var isMusicReady	= false,
-        isMusicPlaying  = false,
+		isMusicPlaying	= false,
 		url				= 'music.mp3',
 		item			= {src:url, id:"music"},
 		queue			= new createjs.LoadQueue(),
+		$soundBtn		= $(".js-sound-btn"),
 		bgm;
 
 	createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.HTMLAudioPlugin, createjs.FlashPlugin]);
@@ -216,13 +217,32 @@ var soundPlayer = (function(){
             isMusicPlaying = false;
         });
         isMusicReady = true;
+		configureSoundBtn();
+	}
+
+	function configureSoundBtn() {
+		$soundBtn
+			.click(function(){
+				bgm.setMute(!bgm.getMute());
+				changeSoundBtnView(bgm.getMute());
+			});
+	}
+
+	function changeSoundBtnView(isMute) {
+		if(isMute){
+			$soundBtn.removeClass("glyphicon-volume-down");
+			$soundBtn.addClass("glyphicon-volume-off");
+		} else {
+			$soundBtn.removeClass("glyphicon-volume-off");
+			$soundBtn.addClass("glyphicon-volume-down");
+		}
+
 	}
 
 	function playSound() {
-
 		if(!isMusicReady || isMusicPlaying)return;
-        bgm.play();
-        isMusicPlaying = true;
+		bgm.play();
+		isMusicPlaying = true;
 	}
 
 	return {
@@ -395,8 +415,8 @@ var soundPlayer = (function(){
 			h = $window.height();
 		$(".js-full-resize")
 			.css({
-				width	: w+"px",
-				height	: h+"px"
+				width	: w + "px",
+				height	: h + "px"
 			});
 	}, 100));
 	$(function(){
