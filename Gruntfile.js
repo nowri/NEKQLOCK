@@ -91,20 +91,8 @@ module.exports = function(grunt) {
 					hostname: "*"
 				}
 			}
-		},
-
-		'ftp-deploy': {
-			changed: {
-				auth: {
-					host: '192.168.14.19',
-					port: 21,
-					authKey: 'key1'
-				},
-				src: 'deploy',
-				dest: '/slide',
-				exclusions: ['**/.DS_Store']
-			}
 		}
+
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-connect');
@@ -113,7 +101,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 
-	grunt.loadNpmTasks('grunt-ftp-deploy');
 
 	grunt.registerTask('commonBefore', 	[/* ここに共通タスクネーム記述 */]);
 	grunt.registerTask('deploy', 		['commonBefore', 'compass:deploy']);
