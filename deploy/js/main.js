@@ -370,7 +370,7 @@ var soundPlayer = (function(){
 		}
 		$mask
 			.stop()
-			.animate(obj, time, "easeOutSine");
+			.animate(obj, time, "linear");
 	}
 
 	function changeZ($current, index) {
