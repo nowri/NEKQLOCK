@@ -110,15 +110,15 @@ gifManager = (function(window, $) {
 	var API				= "http://api.giphy.com/v1/gifs/search?q=cat&api_key=dc6zaTOxFJmzC&limit=100",
 		CACHE_LIMIT_H	= 1,
 		MAX_SLIDES		= 75,
-		nowMS			= moment().milliseconds(),
-		limitMS			= localStorage.getItem("limitMS"),
+		nowMS			= moment().toDate().getTime(),
+		limitMS			= Number(localStorage.getItem("limitMS")),
 		current			= -1,
 		that			= {},
 		shouldLoad,
 		photoList,
 		$photos;
 
-	if(limitMS !== null && limitMS.match(/^-?[0-9]+$/)){
+	if(limitMS !== null && (limitMS+"").match(/^-?[0-9]+$/)){
 		if(limitMS > nowMS) {
 			shouldLoad = false;
 		} else {
@@ -362,12 +362,14 @@ var soundPlayer = (function(){
 	var $window = $(window);
 	function anim($mask, key, value) {
 		var obj = {},
-			time = 333;
+			time = 500;
 		obj[key] = value;
-
+		if(key === "height"){
+			time = time/$window.width()*$window.height();
+		}
 		$mask
 			.stop()
-			.animate(obj, time, "linear");
+			.animate(obj, time, "easeOutExpo");
 	}
 
 	function changeZ($current, index) {
