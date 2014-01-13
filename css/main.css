@@ -130,12 +130,27 @@ a {
   height: 100%;
 }
 
+.photo-list-link {
+  width: 100% !important;
+  height: 100%;
+  font-size: 72px;
+  font-size: 4.5rem;
+  text-decoration: none;
+  color: #ffffff;
+  padding: 30px 0 0 0;
+  position: relative;
+  right: 30px;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);
+  opacity: 0.4;
+}
+
 .photo {
   position: absolute;
   width: 100%;
   height: 100%;
   background-size: cover;
   background-position: 50% 50%;
+  text-align: right;
 }
 
 .clock {
@@ -172,6 +187,11 @@ a {
   color: #fcfaec;
 }
 
+.touch .sound a {
+  font-size: 32px;
+  font-size: 2rem;
+}
+
 .fullscreen {
   line-height: 0;
   position: absolute;
@@ -186,6 +206,10 @@ a {
 
 .fullscreen.invert a {
   color: #fcfaec;
+}
+
+.touch .fullscreen {
+  display: none;
 }
 
 .licence {
