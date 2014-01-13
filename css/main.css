@@ -120,6 +120,8 @@ a {
   -khtml-user-select: none;
   -webkit-user-drag: none;
   -khtml-user-drag: none;
+  top: 0;
+  left: 0;
 }
 
 .photo-list {
@@ -167,6 +169,22 @@ a {
 }
 
 .sound.invert a {
+  color: #fcfaec;
+}
+
+.fullscreen {
+  line-height: 0;
+  position: absolute;
+  top: 9px;
+  right: 40px;
+}
+.fullscreen a {
+  font-size: 14px;
+  text-decoration: none;
+  color: #7d6b48;
+}
+
+.fullscreen.invert a {
   color: #fcfaec;
 }
 
@@ -374,7 +392,8 @@ a {
 
   @page {
     margin: 0.5cm;
-  }
+}
+
   p,
   h2,
   h3 {

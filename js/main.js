@@ -29,6 +29,7 @@ var timer = (function(window, $) {
 	// initialize
 	var that		= {},
 		m			= moment(),
+		snd_m		= moment(),
 		$hh			= $("#js-hh"),
 		$mm			= $("#js-mm"),
 		$ss			= $("#js-ss"),
@@ -38,6 +39,9 @@ var timer = (function(window, $) {
 		hh,
 		mm,
 		ss,
+		snd_hh,
+		snd_mm,
+		snd_ss,
 		isNewYear,
 		isRenderNewYear;
 
@@ -49,16 +53,12 @@ var timer = (function(window, $) {
 			_mm	= m.minutes(),
 			_ss	= m.seconds();
 
-        triggerBGM(_ss, ss);
-
 		renderText($hh, _hh, hh);
 		renderText($mm, _mm, mm);
 		renderText($ss, _ss, ss, true);
 		renderText($hhInvert, _hh, hh);
 		renderText($mmInvert, _mm, mm);
 		renderText($ssInvert, _ss, ss, true);
-
-
 
 		hh	= _hh;
 		mm	= _mm;
@@ -68,9 +68,9 @@ var timer = (function(window, $) {
     function triggerBGM(_ss, ss) {
 
         if(soundPlayer && ss !== _ss) {
-            soundPlayer.playSound();
+            soundPlayer.playSound(_ss);
+			soundPlayer.playSignal(_ss);
         }
-
     }
 
 	function renderText($dom, num, oldNum, isDispatch){
@@ -101,6 +101,29 @@ var timer = (function(window, $) {
 		render();
 	})();
 
+
+	//sound timer
+
+	function renderSound() {
+		snd_m	= moment();
+
+		var _hh	= snd_m.hours(),
+			_mm	= snd_m.minutes(),
+			_ss	= snd_m.seconds();
+
+		triggerBGM(_ss, snd_ss);
+
+		snd_hh	= _hh;
+		snd_mm	= _mm;
+		snd_ss	= _ss;
+
+		setTimeout(renderSound, 8);
+	}
+
+	// start loop
+	renderSound();
+
+
 	return that;
 })(this, jQuery);
 
@@ -114,9 +137,9 @@ gifManager = (function(window, $) {
 		limitMS			= Number(localStorage.getItem("limitMS")),
 		current			= -1,
 		that			= {},
+		$photo			= $("#js-photo"),
 		shouldLoad,
-		photoList,
-		$photos;
+		playList;
 
 	if(limitMS !== null && (limitMS+"").match(/^-?[0-9]+$/)){
 		if(limitMS > nowMS) {
@@ -129,13 +152,13 @@ gifManager = (function(window, $) {
 	}
 
 	if(shouldLoad){
-		load();
+		loadList();
 	} else {
-		renderPhotoList();
+		readyPhoto();
 	}
 
 	// Methods
-	function load() {
+	function loadList() {
 		$.getJSON(API, function(data) {
 			var list = _.pluck(
 				_.pluck(
@@ -146,39 +169,62 @@ gifManager = (function(window, $) {
 				localStorage.setItem("limitMS", Math.floor(nowMS + CACHE_LIMIT_H * 60 * 60 * 1000));
 				localStorage.setItem("photoList", arrToStr(list));
 				photoList = list;
-				renderPhotoList();
+				readyPhoto();
 			}
 		});
 	}
 
-	function renderPhotoList(){
-		var template	= _.template($("#js-photo-list-template").text()),
-			html		= "",
-			$photoList	= $("#js-photo-list"),
-			part;
-		photoList = photoList || strToArr(localStorage.getItem("photoList"));
-		photoList = _.first(_.shuffle(photoList), MAX_SLIDES);
-		_.each(photoList, function(el, i) {
-			part = template({
-				sty:el
-			});
-			html += part;
-		});
-		$photoList.html(html);
-		$photos = $photoList.find(".photo");
-		setTimeout(function(){
+	function readyPhoto(){
+		var photoList,
+			cueFirst,
+			cueBackground;
+
+		playList		= [];
+		photoList		= photoList || strToArr(localStorage.getItem("photoList"));
+		photoList		= _.first(_.shuffle(photoList), MAX_SLIDES);
+		cueFirst		= _.first(photoList, 3);
+		cueBackground	= _.last(photoList, photoList.length - 3);
+
+
+		loadPhotos(cueFirst, function(){
+			loadPhotos(cueBackground);
 			that.isReady = true;
-		}, 1000);
+		});
+
 	}
 
+	function loadPhotos(list, callback) {
+
+		function fileloadHandler(evt) {
+			playList.push(evt.item.src);
+		}
+
+		function completeHandler(evt) {
+			loader.removeEventListener("fileload", fileloadHandler);
+			loader.removeEventListener("complete", completeHandler);
+			if(typeof callback === "function")callback();
+		}
+
+		var loader = new createjs.LoadQueue(false);
+		loader.addEventListener("fileload", fileloadHandler);
+		loader.addEventListener("complete", completeHandler);
+
+		loader.loadManifest(list);
+	}
+
+
+
 	function change(){
-		if(!$photos || !$photos.length)return;
+		if(!that.isReady)return;
 		current++;
-		if(current == MAX_SLIDES){
+		if(current == playList.length){
 			current = 0;
 		}
-		$photos.addClass("hidden");
-		$photos.eq(current).removeClass("hidden");
+
+		$photo.css({
+			backgroundImage:'url('+ playList[current] +')'
+		});
+
 	}
 
 
@@ -200,31 +246,52 @@ var soundPlayer = (function(){
 
 	var isMusicReady	= false,
 		isMusicPlaying	= false,
-		url				= 'music.mp3',
-		item			= {src:url, id:"music"},
+		manifest		= [
+			{src:"music.mp3",	id:"music"},
+			{src:"sine500.mp3",	id:"s500"},
+			{src:"sine1000.mp3",	id:"s1000"},
+			{src:"sine2000.mp3",	id:"s2000"}
+		],
 		queue			= new createjs.LoadQueue(),
 		$soundBtn		= $(".js-sound-btn"),
-		bgm;
+		bgm,
+		s500,
+		s1000,
+		s2000;
 
 	createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.HTMLAudioPlugin, createjs.FlashPlugin]);
 	queue.installPlugin(createjs.Sound);
 	queue.addEventListener("complete", loadComplete);
-	queue.loadFile(item, true);
+	queue.loadManifest(manifest);
+
 
 	function loadComplete(evt) {
-		bgm = createjs.Sound.createInstance("music");
+		s500	= createjs.Sound.createInstance("s500");
+		s1000	= createjs.Sound.createInstance("s1000");
+		s2000	= createjs.Sound.createInstance("s2000");
+		bgm		= createjs.Sound.createInstance("music");
         bgm.addEventListener("complete", function(){
             isMusicPlaying = false;
         });
         isMusicReady = true;
+
+		s500.setVolume(0.8);
+		s1000.setVolume(0.8);
+		s2000.setVolume(0.8);
+		bgm.setVolume(0.7);
+
 		configureSoundBtn();
 	}
 
 	function configureSoundBtn() {
 		$soundBtn
 			.click(function(){
-				bgm.setMute(!bgm.getMute());
-				changeSoundBtnView(bgm.getMute());
+				var mute = !bgm.getMute();
+				s500.setMute(mute);
+				s1000.setMute(mute);
+				s2000.setMute(mute);
+				bgm.setMute(mute);
+				changeSoundBtnView(mute);
 			});
 	}
 
@@ -239,14 +306,42 @@ var soundPlayer = (function(){
 
 	}
 
-	function playSound() {
-		if(!isMusicReady || isMusicPlaying)return;
+	function playSound(sec) {
+		if(!isMusicReady || isMusicPlaying || sec !== 0)return;
 		bgm.play();
 		isMusicPlaying = true;
 	}
 
+	function playSignal(sec) {
+
+		if(!isMusicReady)return;
+
+		switch (sec) {
+			case 0:
+			case 10:
+			case 20:
+			case 30:
+			case 40:
+			case 50:
+				s1000.play();
+				break;
+
+			case 57:
+			case 58:
+			case 59:
+				s500.play();
+				break;
+
+			default:
+				s2000.play();
+				break;
+		}
+
+	}
+
 	return {
-		playSound : playSound
+		playSound	: playSound,
+		playSignal	: playSignal
 	}
 })();
 
@@ -405,6 +500,48 @@ var soundPlayer = (function(){
 		$mask.css(obj);
 	}
 
+})();
+
+
+// fullscreen
+(function() {
+	var $btn = $(".js-fullscreen-btn"),
+		isFull = false;
+
+	function requestFullscreen(element){
+		if(!(element.requestFullscreen)){
+			var requestFullscreen = element.webkitRequestFullScreen ||
+				element.mozRequestFullScreen ||
+				element.oRequestFullScreen ||
+				element.msRequestFullScreen;
+			element.requestFullscreen = requestFullscreen;
+		}
+		element.requestFullscreen();
+	}
+
+
+	function exitFullscreen() {
+		if (document.webkitCancelFullScreen) {
+			document.webkitCancelFullScreen();
+		} else if (document.mozCancelFullScreen) {
+			document.mozCancelFullScreen();
+		} else {
+			document.exitFullscreen();
+		}
+	}
+
+	$btn.click(function(){
+		if(isFull){
+			exitFullscreen();
+			$btn.removeClass("glyphicon-resize-small");
+			$btn.addClass("glyphicon-fullscreen");
+		} else {
+			requestFullscreen($("article").get(0));
+			$btn.removeClass("glyphicon-fullscreen");
+			$btn.addClass("glyphicon-resize-small");
+		}
+		isFull = !isFull;
+	});
 })();
 
 // fit window on resize
