@@ -505,8 +505,7 @@ var soundPlayer = (function(){
 
 // fullscreen
 (function() {
-	var $btn = $(".js-fullscreen-btn"),
-		isFull = false;
+	var $btn = $(".js-fullscreen-btn");
 
 	function requestFullscreen(element){
 		if(!(element.requestFullscreen)){
@@ -530,18 +529,36 @@ var soundPlayer = (function(){
 		}
 	}
 
-	$btn.click(function(){
-		if(isFull){
-			exitFullscreen();
-			$btn.removeClass("glyphicon-resize-small");
-			$btn.addClass("glyphicon-fullscreen");
-		} else {
-			requestFullscreen($("article").get(0));
+	function getFullscreenElement() {
+		return (document.webkitFullscreenElement && document.webkitFullscreenElement !== null)
+			|| (document.mozFullScreenElement && document.mozFullScreenElement !== null)
+			|| (document.msFullscreenElement && document.msFullscreenElement !== null)
+			|| (document.fullScreenElement && document.fullScreenElement !== null);
+	}
+
+
+	function handleFSevent() {
+		if( getFullscreenElement() ) {
 			$btn.removeClass("glyphicon-fullscreen");
 			$btn.addClass("glyphicon-resize-small");
+		}else{
+			$btn.removeClass("glyphicon-resize-small");
+			$btn.addClass("glyphicon-fullscreen");
 		}
-		isFull = !isFull;
+	}
+
+	$btn.click(function(){
+		if(getFullscreenElement()){
+			exitFullscreen();
+		} else {
+			requestFullscreen($("article").get(0));
+		}
 	});
+
+	document.addEventListener("webkitfullscreenchange", handleFSevent, false);
+	document.addEventListener("mozfullscreenchange", handleFSevent, false);
+	document.addEventListener("MSFullscreenChange", handleFSevent, false);
+	document.addEventListener("fullscreenchange", handleFSevent, false);
 })();
 
 // fit window on resize
