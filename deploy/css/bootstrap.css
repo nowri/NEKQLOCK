@@ -32,3 +32,7 @@
 .glyphicon-resize-small:before {
     content: "\e097";
 }
+
+.glyphicon-new-window:before {
+	content: "\e164";
+}
