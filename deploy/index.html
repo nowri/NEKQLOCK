@@ -27,10 +27,11 @@
 	your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<!-- Add your site or application content here -->
 <article class="container">
 	<div id="js-mask-photo" class="mask">
-		<ul id="js-photo-list" class="photo-list js-full-resize"></ul>
+		<ul id="js-photo-list" class="photo-list js-full-resize">
+			<li id="js-photo" class="photo"></li>
+		</ul>
 	</div>
 	<div id="js-mask-clock" class="mask">
 		<div id="js-clock" class="clock js-full-resize">
@@ -42,6 +43,11 @@
 			<div class="sound">
 				<a href="javascript:void(0)">
 					<span class="glyphicon glyphicon-volume-down js-sound-btn"></span>
+				</a>
+			</div>
+			<div class="fullscreen">
+				<a href="javascript:void(0)">
+					<span class="glyphicon glyphicon-fullscreen js-fullscreen-btn"></span>
 				</a>
 			</div>
 			<div class="licence">
@@ -61,6 +67,11 @@
 					<span class="glyphicon glyphicon-volume-down js-sound-btn"></span>
 				</a>
 			</div>
+			<div class="fullscreen invert">
+				<a href="javascript:void(0)">
+					<span class="glyphicon glyphicon-fullscreen js-fullscreen-btn"></span>
+				</a>
+			</div>
 			<div class="licence invert">
 				<a href="http://creativecommons.org/wired/" target="_blank">licence</a>
 			</div>
@@ -68,9 +79,6 @@
 	</div>
 </article>
 
-<script type="text/template" id="js-photo-list-template">
-	<li class="photo hidden" style="background-image:url('<%= sty %>');"></li>
-</script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
 <script src="js/plugins.js"></script>

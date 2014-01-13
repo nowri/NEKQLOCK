@@ -26,12 +26,15 @@ a {
 	z-index: 5;
 }
 
+
 .container {
 	position: fixed;
 	width: 100%;
 	height: 100%;
 	perspective: 800px;
 	@include nosel();
+top:0;
+left:0;
 
 }
 
@@ -81,6 +84,22 @@ a {
 
 .sound.invert a {
 	color: $COLOR_B;
+}
+
+.fullscreen {
+	line-height: 0;
+	position: absolute;
+	top: 9px;
+	right: 40px;
+	a {
+		font-size: 14px;
+		text-decoration: none;
+		color: $COLOR_F;
+	}
+}
+
+.fullscreen.invert a {
+color: $COLOR_B;
 }
 
 .licence {
