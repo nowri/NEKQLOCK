@@ -796,7 +796,12 @@ var VERSION = 1.0,
 		"J6uqcO8IWuRNu",
 		"m5pgqQ1VZ3CeI",
 		"uPTJkFvfDDdtK",
-		"JT5IupoDW7hUA"
+		"JT5IupoDW7hUA",
+		"8hQeTRp7SkrF6",
+		"Dea0leKapJzJC",
+		"11H2sYCtWyuTF6",
+		"Ggilj1JJV681y",
+		"Dea0leKapJzJC"
 	];
 
 //timer
@@ -863,13 +868,13 @@ var timer = (function(window, $) {
 		ss	= _ss;
 	}
 
-    function triggerBGM(_ss, ss) {
+	function triggerBGM(_ss, ss) {
 
-        if(soundPlayer && ss !== _ss) {
-            soundPlayer.playSound(_ss);
+		if(soundPlayer && ss !== _ss) {
+			soundPlayer.playSound(_ss);
 			soundPlayer.playSignal(_ss);
-        }
-    }
+		}
+	}
 
 	function renderText($dom, num, oldNum, isDispatch){
 
@@ -963,8 +968,8 @@ gifManager = (function(window, $) {
 
 	$photoLink
 		.on("mouseenter", function(){
-			$(this).addClass("glyphicon-new-window");
-		})
+		$(this).addClass("glyphicon-new-window");
+	})
 		.on("mouseleave", function(){
 			$(this).removeClass("glyphicon-new-window");
 		});
@@ -982,10 +987,10 @@ gifManager = (function(window, $) {
 			$.getJSON(API + API_QUERIES + "&offset=" + offset, function(data) {
 				var datas = filter(data.data),
 					imageList = _.pluck(
-					_.pluck(
-						_.pluck(datas, "images"),
-						"original"),
-					"url"),
+						_.pluck(
+							_.pluck(datas, "images"),
+							"original"),
+						"url"),
 					linkList =  _.pluck(datas, "url");
 				if(imageList && imageList.length) {
 					localStorage.setItem("limitMS", Math.floor(nowMS + CACHE_LIMIT_H * 60 * 60 * 1000));
@@ -1145,9 +1150,9 @@ var soundPlayer = (function(){
 	function configureSoundBtn() {
 		$soundBtn
 			.click(function(){
-				var mute = !bgm.getMute();
-				changeSoundMute(mute);
-			});
+			var mute = !bgm.getMute();
+			changeSoundMute(mute);
+		});
 	}
 
 	function changeSoundMute(isMute) {
