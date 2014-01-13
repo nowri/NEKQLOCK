@@ -1034,7 +1034,7 @@ gifManager = (function(window, $) {
 		localStorage.clear();
 
 		$.getJSON(API, function(_data) {
-			var offset = Math.floor(Math.random() * (_data.pagination.total_count/2 - 100));
+			var offset = Math.floor(Math.random() * (_data.pagination.total_count/4 - 100));
 
 			$.getJSON(API + API_QUERIES + "&offset=" + offset, function(data) {
 				var datas = filter(data.data),
