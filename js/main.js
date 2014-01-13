@@ -797,7 +797,6 @@ var VERSION = 1.0,
 		"m5pgqQ1VZ3CeI",
 		"uPTJkFvfDDdtK",
 		"JT5IupoDW7hUA"
-		""
 	];
 
 //timer
