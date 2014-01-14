@@ -188,8 +188,8 @@ a {
 }
 
 .touch .sound a {
-  font-size: 32px;
-  font-size: 2rem;
+  font-size: 64px;
+  font-size: 4rem;
 }
 
 .fullscreen {
@@ -416,8 +416,7 @@ a {
 
   @page {
     margin: 0.5cm;
-}
-
+  }
   p,
   h2,
   h3 {
