@@ -1,6 +1,6 @@
-//NEKQLOCK v1.14
+//NEKQLOCK v1.15
 
-var VERSION = 1.14,
+var VERSION = 1.15,
 	FILTERS = [
 		"194AMb3",
 		"1hy9EFj",
@@ -886,7 +886,12 @@ var VERSION = 1.14,
 		"hjXEu11TDY5mE",
 		"sgOouoIZz14Tm",
 		"9C1Dw3Nqqh3CE",
-		"E186t2c4ocG76"
+		"E186t2c4ocG76",
+		"HyJ8dhg8uNxni",
+		"uOh4GskvP44Mw",
+		"NdKCMumraZlMQ",
+		"AoYbqieQHIuxW",
+		"mkfnpzAsBqGbK"
 	];
 
 //timer
@@ -1188,7 +1193,7 @@ var gifManager = (function(window, $) {
 var soundPlayer = (function(){
 	var ua = navigator.userAgent;
 	if ((/iPhone/.test(ua) || /iPad/.test(ua)) || /iPod/.test(ua)) {
-		$(".sound").hide();
+		$(".licence").hide();
 		return;
 	}
 
