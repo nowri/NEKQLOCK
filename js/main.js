@@ -1,6 +1,6 @@
-//NEKQLOCK v1.11
+//NEKQLOCK v1.12
 
-var VERSION = 1.11,
+var VERSION = 1.12,
 	FILTERS = [
 		"194AMb3",
 		"1hy9EFj",
@@ -867,7 +867,14 @@ var VERSION = 1.11,
 		"lqKVfL4iwWmKk",
 		"74s3WOgjXkx3i",
 		"189KOdMMkkOJO",
-		"11yukdIW8fzmyk"
+		"11yukdIW8fzmyk",
+		"r2QRKBknJcmvm",
+		"AHj0lQstZ9I9W",
+		"lyZSFzeNAIWuk",
+		"zqgpjoA3yK7aE",
+		"kyeIEFsFQ75ew",
+		"hF6dgSQgqFDRS",
+		"dG7ZiL6ImLyNO"
 	];
 
 //timer
@@ -934,13 +941,13 @@ var timer = (function(window, $) {
 		ss	= _ss;
 	}
 
-    function triggerBGM(_ss, ss) {
+	function triggerBGM(_ss, ss) {
 
-        if(soundPlayer && ss !== _ss) {
-            soundPlayer.playSound(_ss);
+		if(soundPlayer && ss !== _ss) {
+			soundPlayer.playSound(_ss);
 			soundPlayer.playSignal(_ss);
-        }
-    }
+		}
+	}
 
 	function renderText($dom, num, oldNum, isDispatch){
 
@@ -1053,10 +1060,10 @@ gifManager = (function(window, $) {
 			$.getJSON(API + API_QUERIES + "&offset=" + offset, function(data) {
 				var datas = filter(data.data),
 					imageList = _.pluck(
-					_.pluck(
-						_.pluck(datas, "images"),
-						"original"),
-					"url"),
+						_.pluck(
+							_.pluck(datas, "images"),
+							"original"),
+						"url"),
 					linkList =  _.pluck(datas, "url");
 				if(imageList && imageList.length) {
 					localStorage.setItem("limitMS", Math.floor(nowMS + CACHE_LIMIT_H * 60 * 60 * 1000));
