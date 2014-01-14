@@ -1,6 +1,6 @@
-//NEKQLOCK v1.12
+//NEKQLOCK v1.14
 
-var VERSION = 1.12,
+var VERSION = 1.14,
 	FILTERS = [
 		"194AMb3",
 		"1hy9EFj",
@@ -880,7 +880,13 @@ var VERSION = 1.12,
 		"4pGTfJ5Sgo62I",
 		"WXftwhr9UZ7tC",
 		"ybSDeIfdR0VQk",
-		"r9hSQCYinSqpa"
+		"r9hSQCYinSqpa",
+		"B9AaRDrTZ6RSo",
+		"12cwbKJGBkfQFq",
+		"hjXEu11TDY5mE",
+		"sgOouoIZz14Tm",
+		"9C1Dw3Nqqh3CE",
+		"E186t2c4ocG76"
 	];
 
 //timer
@@ -1010,7 +1016,7 @@ var timer = (function(window, $) {
 })(this, jQuery);
 
 // GIF manager
-gifManager = (function(window, $) {
+var gifManager = (function(window, $) {
 
 	var API				= "http://api.giphy.com/v1/gifs/search?q=cat&api_key=dc6zaTOxFJmzC",
 		API_QUERIES		= "&limit=100",
@@ -1210,23 +1216,19 @@ var soundPlayer = (function(){
 
 
 	function loadComplete(evt) {
-
-		s500 = createjs.Sound.createInstance("s500");
-		s1000 = createjs.Sound.createInstance("s1000");
-		s2000 = createjs.Sound.createInstance("s2000");
-		bgm = createjs.Sound.createInstance("music");
+		s500	= createjs.Sound.createInstance("s500");
+		s1000	= createjs.Sound.createInstance("s1000");
+		s2000	= createjs.Sound.createInstance("s2000");
+		bgm		= createjs.Sound.createInstance("music");
 		bgm.addEventListener("complete", function () {
 			isMusicPlaying = false;
 		});
 		isMusicReady = true;
-
 		s500.setVolume(0.8);
 		s1000.setVolume(0.8);
 		s2000.setVolume(0.8);
 		bgm.setVolume(0.7);
-
 		configureSoundBtn();
-
 	}
 
 	function configureSoundBtn() {
