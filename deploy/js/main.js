@@ -1,6 +1,6 @@
-//NEKQLOCK v1.13
+//NEKQLOCK v1.14
 
-var VERSION = 1.13,
+var VERSION = 1.14,
 	FILTERS = [
 		"194AMb3",
 		"1hy9EFj",
