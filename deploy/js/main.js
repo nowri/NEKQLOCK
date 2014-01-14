@@ -1,6 +1,6 @@
-//NEKQLOCK v1.12
+//NEKQLOCK v1.13
 
-var VERSION = 1.12,
+var VERSION = 1.13,
 	FILTERS = [
 		"194AMb3",
 		"1hy9EFj",
@@ -1010,7 +1010,7 @@ var timer = (function(window, $) {
 })(this, jQuery);
 
 // GIF manager
-gifManager = (function(window, $) {
+var gifManager = (function(window, $) {
 
 	var API				= "http://api.giphy.com/v1/gifs/search?q=cat&api_key=dc6zaTOxFJmzC",
 		API_QUERIES		= "&limit=100",
