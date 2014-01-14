@@ -1210,23 +1210,19 @@ var soundPlayer = (function(){
 
 
 	function loadComplete(evt) {
-
-		s500 = createjs.Sound.createInstance("s500");
-		s1000 = createjs.Sound.createInstance("s1000");
-		s2000 = createjs.Sound.createInstance("s2000");
-		bgm = createjs.Sound.createInstance("music");
+		s500	= createjs.Sound.createInstance("s500");
+		s1000	= createjs.Sound.createInstance("s1000");
+		s2000	= createjs.Sound.createInstance("s2000");
+		bgm		= createjs.Sound.createInstance("music");
 		bgm.addEventListener("complete", function () {
 			isMusicPlaying = false;
 		});
 		isMusicReady = true;
-
 		s500.setVolume(0.8);
 		s1000.setVolume(0.8);
 		s2000.setVolume(0.8);
 		bgm.setVolume(0.7);
-
 		configureSoundBtn();
-
 	}
 
 	function configureSoundBtn() {
