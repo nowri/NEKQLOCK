@@ -1,6 +1,6 @@
-//NEKQLOCK v1.0
+//NEKQLOCK v1.1
 
-var VERSION = 1.0,
+var VERSION = 1.1,
 	FILTERS = [
 		"194AMb3",
 		"1hy9EFj",
@@ -853,7 +853,14 @@ var VERSION = 1.0,
 		"9DzSJmBx2ruWk",
 		"h3CvQSopVvBJe",
 		"u7uELS5KCvwDC",
-		"yf3kGklz0CCfm"
+		"yf3kGklz0CCfm",
+		"Ty4Z5j4Meg2l2",
+		"OmpwbotQMqbIY",
+		"UZgpIT0z1yczS",
+		"MA7X6brqBTWDe",
+		"u0XrMrGNFvt4s",
+		"a8uw2smjDlvXa",
+		"1tKyHMAN0VYNq"
 	];
 
 //timer
@@ -1153,6 +1160,11 @@ gifManager = (function(window, $) {
 
 //sound player
 var soundPlayer = (function(){
+	var ua = navigator.userAgent;
+	if ((/iPhone/.test(ua) || /iPad/.test(ua)) || /iPod/.test(ua)) {
+		$(".sound").hide();
+		return;
+	}
 
 	var isMusicReady	= false,
 		isMusicPlaying	= false,
@@ -1178,6 +1190,7 @@ var soundPlayer = (function(){
 
 
 	function loadComplete(evt) {
+
 		s500 = createjs.Sound.createInstance("s500");
 		s1000 = createjs.Sound.createInstance("s1000");
 		s2000 = createjs.Sound.createInstance("s2000");
@@ -1194,9 +1207,6 @@ var soundPlayer = (function(){
 
 		configureSoundBtn();
 
-		if(Modernizr.touch){
-			changeSoundMute(true);
-		}
 	}
 
 	function configureSoundBtn() {
