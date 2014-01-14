@@ -874,7 +874,13 @@ var VERSION = 1.12,
 		"zqgpjoA3yK7aE",
 		"kyeIEFsFQ75ew",
 		"hF6dgSQgqFDRS",
-		"dG7ZiL6ImLyNO"
+		"dG7ZiL6ImLyNO",
+		"ltigdyYsYVqSc",
+		"4ATNcOi0lbg1a",
+		"4pGTfJ5Sgo62I",
+		"WXftwhr9UZ7tC",
+		"ybSDeIfdR0VQk",
+		"r9hSQCYinSqpa"
 	];
 
 //timer
