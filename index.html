@@ -84,7 +84,12 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
 <script src="js/plugins.js"></script>
-<script src="js/main.js?preventCache=20140114"></script>
+<script>
+	(function(){
+		var val = (new Date()).getTime();
+		document.write('<script src="js/main.js?preventCache=' + val + '"><\/script>')
+	})();
+</script>
 
 </body>
 </html>
