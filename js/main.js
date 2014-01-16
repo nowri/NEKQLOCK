@@ -1,6 +1,6 @@
-//NEKQLOCK v1.18
+//NEKQLOCK v1.19
 
-var VERSION = 1.18,
+var VERSION = 1.19,
 	FILTERS = [
 		"194AMb3",
 		"1hy9EFj",
@@ -921,7 +921,23 @@ var VERSION = 1.18,
 		"OVKYrEOVn2PHa",
 		"WxmNSUmCnWrhm",
 		"zMZ3Ta9FYy74s",
-		"ZIn20m6DHWqBy"
+		"ZIn20m6DHWqBy",
+		"VoImN3V2iRtiU",
+		"ZIgxtSsQoduko",
+		"CJZkWFeLFR184",
+		"rHGQb4xinWhO0",
+		"Ent2j55lyQipa",
+		"WzFX1pFhsA82A",
+		"13pxbj1vrAxj6E",
+		"L3xLGWFVkxH44",
+		"tlnXmHothoGxG",
+		"9DmxwRzCqIdBm",
+		"YHCSuBo1aq3MA",
+		"ktW8FqKodoPUk",
+		"a8uw2smjDIvXa",
+		"QoqiGpW2gZYly",
+		"hNJjG9q2Yh53W",
+		"93vmDgDSCOGiI"
 	];
 
 //timer
