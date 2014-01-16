@@ -1,6 +1,6 @@
-//NEKQLOCK v1.18
+//NEKQLOCK v1.19
 
-var VERSION = 1.18,
+var VERSION = 1.19,
 	FILTERS = [
 		"194AMb3",
 		"1hy9EFj",
@@ -921,7 +921,23 @@ var VERSION = 1.18,
 		"OVKYrEOVn2PHa",
 		"WxmNSUmCnWrhm",
 		"zMZ3Ta9FYy74s",
-		"ZIn20m6DHWqBy"
+		"ZIn20m6DHWqBy",
+		"VoImN3V2iRtiU",
+		"ZIgxtSsQoduko",
+		"CJZkWFeLFR184",
+		"rHGQb4xinWhO0",
+		"Ent2j55lyQipa",
+		"WzFX1pFhsA82A",
+		"13pxbj1vrAxj6E",
+		"L3xLGWFVkxH44",
+		"tlnXmHothoGxG",
+		"9DmxwRzCqIdBm",
+		"YHCSuBo1aq3MA",
+		"ktW8FqKodoPUk",
+		"a8uw2smjDIvXa",
+		"QoqiGpW2gZYly",
+		"hNJjG9q2Yh53W",
+		"93vmDgDSCOGiI"
 	];
 
 //timer
@@ -988,13 +1004,13 @@ var timer = (function(window, $) {
 		ss	= _ss;
 	}
 
-    function triggerBGM(_ss, ss) {
+	function triggerBGM(_ss, ss) {
 
-        if(soundPlayer && ss !== _ss) {
-            soundPlayer.playSound(_ss);
+		if(soundPlayer && ss !== _ss) {
+			soundPlayer.playSound(_ss);
 			soundPlayer.playSignal(_ss);
-        }
-    }
+		}
+	}
 
 	function renderText($dom, num, oldNum, isDispatch){
 
@@ -1107,10 +1123,10 @@ var gifManager = (function(window, $) {
 			$.getJSON(API + API_QUERIES + "&offset=" + offset, function(data) {
 				var datas = filter(data.data),
 					imageList = _.pluck(
-					_.pluck(
-						_.pluck(datas, "images"),
-						"original"),
-					"url"),
+						_.pluck(
+							_.pluck(datas, "images"),
+							"original"),
+						"url"),
 					linkList =  _.pluck(datas, "url");
 				if(imageList && imageList.length) {
 					localStorage.setItem("limitMS", Math.floor(nowMS + CACHE_LIMIT_H * 60 * 60 * 1000));
