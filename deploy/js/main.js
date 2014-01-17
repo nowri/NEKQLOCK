@@ -1,6 +1,6 @@
-//NEKQLOCK v1.24
+//NEKQLOCK v1.25
 
-var VERSION = 1.24,
+var VERSION = 1.25,
 	FILTERS = [
 		"194AMb3",
 		"1hy9EFj",
@@ -975,7 +975,15 @@ var VERSION = 1.24,
 		"ciemW0wNV3cLm",
 		"CWTxSELOjlzTq",
 		"J5FxvadJJ1iGA",
-		"gbwqPjsvAt3ol"
+		"gbwqPjsvAt3ol",
+		"iXVB5POLzYP7i",
+		"3mq6k5fqe5g8o",
+		"6yyRhy9n9hrWw",
+		"zxnXIdgx0uMbC",
+		"rh4CYpBzRaYUw",
+		"ttLJiNJs5131K",
+		"kN7ba1vEiNLCU",
+		"GFigabfetzvq0"
 	];
 
 //timer
