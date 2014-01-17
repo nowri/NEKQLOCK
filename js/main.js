@@ -1,6 +1,6 @@
-//NEKQLOCK v1.28
+//NEKQLOCK v1.29
 
-var VERSION = 1.28,
+var VERSION = 1.29,
 	FILTERS = [
 		"194AMb3",
 		"1hy9EFj",
@@ -998,7 +998,12 @@ var VERSION = 1.28,
 		"6BIy26U256pUI",
 		"12olBDpsJhoASI",
 		"gd13g6mlPyGuk",
-		"CVjD8t7UyHBPa"
+		"CVjD8t7UyHBPa",
+		"13CYOfhbxFZvEc",
+		"12DlOl7N0hj8Qg",
+		"10uziIkvI40bGE",
+		"2x205rfgpdtK0",
+		"qBPjiENGe8Vz2"
 	];
 
 //timer
@@ -1165,8 +1170,8 @@ var gifManager = (function(window, $) {
 
 	$photoLink
 		.on("mouseenter", function(){
-			$(this).addClass("glyphicon-new-window");
-		})
+		$(this).addClass("glyphicon-new-window");
+	})
 		.on("mouseleave", function(){
 			$(this).removeClass("glyphicon-new-window");
 		});
@@ -1346,9 +1351,9 @@ var soundPlayer = (function(){
 	function configureSoundBtn() {
 		$soundBtn
 			.click(function(){
-				var mute = !bgm.getMute();
-				changeSoundMute(mute);
-			});
+			var mute = !bgm.getMute();
+			changeSoundMute(mute);
+		});
 	}
 
 	function changeSoundMute(isMute) {
