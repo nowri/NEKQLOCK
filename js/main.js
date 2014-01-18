@@ -1,6 +1,6 @@
-//NEKQLOCK v2.3
+//NEKQLOCK v2.4
 
-var VERSION = 2.3,
+var VERSION = 2.4,
 	FILTERS = [
 		"194AMb3",
 		"1hy9EFj",
@@ -1049,7 +1049,10 @@ var VERSION = 2.3,
 		"HQ9dS2mcEiqYw",
 		"iWbSvuhKxmsnu",
 		"hEnigOSlkoSIw",
-		"CR2ZtBTFxN6lG"
+		"CR2ZtBTFxN6lG",
+		"Su6BAqZA21GqQ",
+		"JHjTiDlBzuemk",
+		"BIO1yWvk8TQty"
 	];
 
 //timer
@@ -1610,10 +1613,10 @@ var soundPlayer = (function(){
 					reset($maskA, "width", "0%");
 					reset($maskA, "height", "100%");
 					anim($maskA, "width", "100%");
-					gifManager.change();
 					break;
 
 				case 6:
+					gifManager.change();
 					changeZ($maskA, 5);
 					reset($maskP, "width", "100%");
 					reset($maskP, "height", "0%");
