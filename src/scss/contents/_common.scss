@@ -99,8 +99,12 @@ left:0;
 	color: $COLOR_B;
 }
 
-.touch .sound a {
-	@include fontsize(64);
+.touch .sound {
+    top: 39px;
+    a {
+    	@include fontsize(48);
+    }
+
 }
 
 .fullscreen {

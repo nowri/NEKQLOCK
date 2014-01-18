@@ -187,9 +187,12 @@ a {
   color: #fcfaec;
 }
 
+.touch .sound {
+  top: 39px;
+}
 .touch .sound a {
-  font-size: 64px;
-  font-size: 4rem;
+  font-size: 48px;
+  font-size: 3rem;
 }
 
 .fullscreen {
@@ -416,7 +419,8 @@ a {
 
   @page {
     margin: 0.5cm;
-  }
+}
+
   p,
   h2,
   h3 {

@@ -1,6 +1,6 @@
-//NEKQLOCK v1.3
+//NEKQLOCK v2
 
-var VERSION = 1.3,
+var VERSION = 2,
 	FILTERS = [
 		"194AMb3",
 		"1hy9EFj",
@@ -1005,7 +1005,49 @@ var VERSION = 1.3,
 		"2x205rfgpdtK0",
 		"qBPjiENGe8Vz2",
 		"E8IZJN3bLVmM0",
-		"grpjgTikTyVtS"
+		"grpjgTikTyVtS",
+		"qgZy6p2jQcclW",
+		"lnZUA2CvaNBUA",
+		"q4vNeqLNLTRT2",
+		"8LN2Tvp28vzig",
+		"NbcuasuIz8gMM",
+		"VlchmIoZPjjYQ",
+		"11zPtcTvWtaHfO",
+		"13uEOM7Xy7eBuE",
+		"7A95MBz3Qe5Ow",
+		"K4bJi2rOl0CQ0",
+		"K3F3gPRFnRHsA",
+		"8D3jE3i7XLR3q",
+		"O5wP8kA9nN7xu",
+		"JYyHzGx7zJ3wc",
+		"Nldq59ID9I8W4",
+		"UuIom9saJP5eg",
+		"2Bkqvz4hcANy0",
+		"eD68qttah77va",
+		"mruQMvZNT2KpW",
+		"sfWd9QqaxKik",
+		"i0dGmaI33JRbq",
+		"j8V9Wn60AjMre",
+		"uYVKh5qwduwzC",
+		"z4RcXqAzHLqQE",
+		"10pjuDvPY4S6iY",
+		"6PPoIP2zL1yAU",
+		"eeYcifcBzsIBG",
+		"9CuFYEWQtugZq",
+		"Z8AFXc0a1l7rO",
+		"11jOTcsPhdkyYw",
+		"Mo3tRx77rKAV2",
+		"M9PMqdAkhBXBS",
+		"e9Vf9XhL3pgmA",
+		"gHbQG42yJMVHy",
+		"ODGaKDyHFmqxq",
+		"vSJbZtBRn2oBG",
+		"12JKn7CZyMCRuo",
+		"DDQMFYURojmmc",
+		"alLDIq4IvM9gc",
+		"7gRZnIafoQ7uw",
+		"HQ9dS2mcEiqYw",
+		"iWbSvuhKxmsnu"
 	];
 
 //timer
@@ -1172,8 +1214,8 @@ var gifManager = (function(window, $) {
 
 	$photoLink
 		.on("mouseenter", function(){
-		$(this).addClass("glyphicon-new-window");
-	})
+			$(this).addClass("glyphicon-new-window");
+		})
 		.on("mouseleave", function(){
 			$(this).removeClass("glyphicon-new-window");
 		});
@@ -1254,7 +1296,6 @@ var gifManager = (function(window, $) {
 		function fileloadHandler(evt) {
 			playList.push(evt.item);
 		}
-
 		function completeHandler(evt) {
 			loader.removeEventListener("fileload", fileloadHandler);
 			loader.removeEventListener("complete", completeHandler);
@@ -1303,115 +1344,209 @@ var gifManager = (function(window, $) {
 
 })(this, jQuery);
 
-//sound player
+// sound player
 var soundPlayer = (function(){
+
 	var ua = navigator.userAgent;
+
+	function SoundPlayer(){
+
+		var isMusicReady	= false,
+			isMusicPlaying	= false,
+			manifest		= [
+				{src:"music.mp3",		id:"music"},
+				{src:"sine500.mp3",		id:"s500"},
+				{src:"sine1000.mp3",	id:"s1000"},
+				{src:"sine2000.mp3",	id:"s2000"}
+			],
+			queue			= new createjs.LoadQueue(),
+			$soundBtn		= $(".js-sound-btn"),
+			bgm,
+			s500,
+			s1000,
+			s2000;
+
+		createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.HTMLAudioPlugin, createjs.FlashPlugin]);
+		queue.installPlugin(createjs.Sound);
+		queue.addEventListener("complete", loadComplete);
+		queue.loadManifest(manifest);
+
+
+		function loadComplete(evt) {
+			s500	= createjs.Sound.createInstance("s500");
+			s1000	= createjs.Sound.createInstance("s1000");
+			s2000	= createjs.Sound.createInstance("s2000");
+			bgm		= createjs.Sound.createInstance("music");
+			bgm.addEventListener("complete", function () {
+				isMusicPlaying = false;
+			});
+			isMusicReady = true;
+			s500.setVolume(0.8);
+			s1000.setVolume(0.8);
+			s2000.setVolume(0.8);
+			bgm.setVolume(0.7);
+			configureSoundBtn();
+		}
+
+
+		function configureSoundBtn() {
+			$soundBtn
+				.click(function(){
+				var mute = !bgm.getMute();
+				changeSoundMute(mute);
+			});
+		}
+
+		function changeSoundMute(isMute) {
+
+			if(isMute){
+				$soundBtn.removeClass("glyphicon-volume-down");
+				$soundBtn.addClass("glyphicon-volume-off");
+			} else {
+				$soundBtn.removeClass("glyphicon-volume-off");
+				$soundBtn.addClass("glyphicon-volume-down");
+			}
+			s500.setMute(isMute);
+			s1000.setMute(isMute);
+			s2000.setMute(isMute);
+			bgm.setMute(isMute);
+
+		}
+
+		function playSound(sec) {
+			if(!isMusicReady || isMusicPlaying || sec !== 0)return;
+			bgm.play();
+			isMusicPlaying = true;
+		}
+
+		function playSignal(sec) {
+
+			if(!isMusicReady)return;
+
+			switch (sec) {
+				case 0:
+				case 10:
+				case 20:
+				case 30:
+				case 40:
+				case 50:
+					s1000.play();
+					break;
+
+				case 57:
+				case 58:
+				case 59:
+					s500.play();
+					break;
+
+				default:
+					s2000.play();
+					break;
+			}
+
+		}
+
+		return {
+			playSound	: playSound,
+			playSignal	: playSignal
+		}
+	}
+
+	function SoundPlayerForiOS() {
+		var isMusicReady	= false,
+			isMusicPlaying	= false,
+			manifest		= [
+				{src:"sines.mp3",		id:"sines"}
+			],
+			queue			= new createjs.LoadQueue(),
+			$soundBtn		= $(".js-sound-btn"),
+			sines;
+
+		createjs.Sound.registerPlugins([createjs.WebAudioPlugin]);
+		queue.installPlugin(createjs.Sound);
+		queue.addEventListener("complete", loadComplete);
+		queue.loadManifest(manifest);
+
+
+
+
+		function loadComplete(evt) {
+			sines	= createjs.Sound.createInstance("sines");
+
+			isMusicReady = true;
+
+			configureSoundBtn();
+		}
+
+		function configureSoundBtn() {
+			$soundBtn
+				.click(function(){
+				var mute = !sines.getMute();
+				changeSoundMute(mute);
+			});
+
+			changeSoundMute(true);
+		}
+
+		function changeSoundMute(isMute) {
+
+			if(isMute){
+				$soundBtn.removeClass("glyphicon-volume-down");
+				$soundBtn.addClass("glyphicon-volume-off");
+			} else {
+				$soundBtn.removeClass("glyphicon-volume-off");
+				$soundBtn.addClass("glyphicon-volume-down");
+			}
+			sines.setMute(isMute);
+		}
+
+		function playSound() {}
+
+		function playSignal(sec) {
+
+			if(!isMusicReady)return;
+
+			switch (sec) {
+				case 0:
+				case 10:
+				case 20:
+				case 30:
+				case 40:
+				case 50:
+					sines.play({offset:1000, endOffset:2999});
+					break;
+
+				case 57:
+				case 58:
+				case 59:
+					sines.play({offset:0, endOffset:999});
+					break;
+
+				default:
+					sines.play({offset:3000, endOffset:3500});
+					break;
+			}
+		}
+
+
+		return {
+			playSound	: playSound,
+			playSignal	: playSignal
+		}
+	}
+
 	if ((/iPhone/.test(ua) || /iPad/.test(ua)) || /iPod/.test(ua)) {
-		$(".licence").hide();
-		return;
-	}
-
-	var isMusicReady	= false,
-		isMusicPlaying	= false,
-		manifest		= [
-			{src:"music.mp3",		id:"music"},
-			{src:"sine500.mp3",		id:"s500"},
-			{src:"sine1000.mp3",	id:"s1000"},
-			{src:"sine2000.mp3",	id:"s2000"}
-		],
-		queue			= new createjs.LoadQueue(),
-		$soundBtn		= $(".js-sound-btn"),
-		bgm,
-		s500,
-		s1000,
-		s2000;
-
-	createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.HTMLAudioPlugin, createjs.FlashPlugin]);
-	queue.installPlugin(createjs.Sound);
-	queue.addEventListener("complete", loadComplete);
-	queue.loadManifest(manifest);
-
-
-
-
-	function loadComplete(evt) {
-		s500	= createjs.Sound.createInstance("s500");
-		s1000	= createjs.Sound.createInstance("s1000");
-		s2000	= createjs.Sound.createInstance("s2000");
-		bgm		= createjs.Sound.createInstance("music");
-		bgm.addEventListener("complete", function () {
-			isMusicPlaying = false;
-		});
-		isMusicReady = true;
-		s500.setVolume(0.8);
-		s1000.setVolume(0.8);
-		s2000.setVolume(0.8);
-		bgm.setVolume(0.7);
-		configureSoundBtn();
-	}
-
-	function configureSoundBtn() {
-		$soundBtn
-			.click(function(){
-			var mute = !bgm.getMute();
-			changeSoundMute(mute);
-		});
-	}
-
-	function changeSoundMute(isMute) {
-
-		if(isMute){
-			$soundBtn.removeClass("glyphicon-volume-down");
-			$soundBtn.addClass("glyphicon-volume-off");
-		} else {
-			$soundBtn.removeClass("glyphicon-volume-off");
-			$soundBtn.addClass("glyphicon-volume-down");
-		}
-		s500.setMute(isMute);
-		s1000.setMute(isMute);
-		s2000.setMute(isMute);
-		bgm.setMute(isMute);
-
-	}
-
-	function playSound(sec) {
-		if(!isMusicReady || isMusicPlaying || sec !== 0)return;
-		bgm.play();
-		isMusicPlaying = true;
-	}
-
-	function playSignal(sec) {
-
-		if(!isMusicReady)return;
-
-		switch (sec) {
-			case 0:
-			case 10:
-			case 20:
-			case 30:
-			case 40:
-			case 50:
-				s1000.play();
-				break;
-
-			case 57:
-			case 58:
-			case 59:
-				s500.play();
-				break;
-
-			default:
-				s2000.play();
-				break;
-		}
-
-	}
-
-	return {
-		playSound	: playSound,
-		playSignal	: playSignal
+		return SoundPlayerForiOS();
+	} else {
+		return SoundPlayer();
 	}
 })();
+
+
+
+
+
+
 
 // display manager
 (function() {
