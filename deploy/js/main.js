@@ -1,6 +1,6 @@
-//NEKQLOCK v2
+//NEKQLOCK v2.2
 
-var VERSION = 2.1,
+var VERSION = 2.2,
 	FILTERS = [
 		"194AMb3",
 		"1hy9EFj",
@@ -1216,8 +1216,8 @@ var gifManager = (function(window, $) {
 
 	$photoLink
 		.on("mouseenter", function(){
-			$(this).addClass("glyphicon-new-window");
-		})
+		$(this).addClass("glyphicon-new-window");
+	})
 		.on("mouseleave", function(){
 			$(this).removeClass("glyphicon-new-window");
 		});
@@ -1456,7 +1456,7 @@ var soundPlayer = (function(){
 
 	function SoundPlayerForiOS() {
 		var isMusicReady	= false,
-			isMusicPlaying	= false,
+			enebledControl	= false,
 			manifest		= [
 				{src:"sines.mp3",		id:"sines"}
 			],
@@ -1483,6 +1483,7 @@ var soundPlayer = (function(){
 		function configureSoundBtn() {
 			$soundBtn
 				.click(function(){
+				muteSignal();
 				var mute = !sines.getMute();
 				changeSoundMute(mute);
 			});
@@ -1528,6 +1529,12 @@ var soundPlayer = (function(){
 					sines.play({offset:3000, endOffset:3500});
 					break;
 			}
+		}
+
+		function muteSignal() {
+			if(!isMusicReady || enebledControl)return;
+			sines.play({offset:2400, endOffset:2800});
+			enebledControl = true;
 		}
 
 
