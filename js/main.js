@@ -1,6 +1,6 @@
-//NEKQLOCK v2.2
+//NEKQLOCK v2.3
 
-var VERSION = 2.2,
+var VERSION = 2.3,
 	FILTERS = [
 		"194AMb3",
 		"1hy9EFj",
@@ -1216,8 +1216,8 @@ var gifManager = (function(window, $) {
 
 	$photoLink
 		.on("mouseenter", function(){
-			$(this).addClass("glyphicon-new-window");
-		})
+		$(this).addClass("glyphicon-new-window");
+	})
 		.on("mouseleave", function(){
 			$(this).removeClass("glyphicon-new-window");
 		});
